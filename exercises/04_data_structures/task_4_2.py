@@ -9,3 +9,4 @@
 """
 
 mac = "AAAA:BBBB:CCCC"
+'{:}.{:}.{:}'.format(mac[0:4],mac[5:9],mac[-4:])
