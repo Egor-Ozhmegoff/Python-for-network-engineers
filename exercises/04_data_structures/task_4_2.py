@@ -9,4 +9,7 @@
 """
 
 mac = "AAAA:BBBB:CCCC"
+<<<<<<< HEAD
 '{:}.{:}.{:}'.format(mac[0:4],mac[5:9],mac[-4:])
+=======
+>>>>>>> template/master

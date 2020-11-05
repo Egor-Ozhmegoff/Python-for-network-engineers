@@ -20,6 +20,7 @@
 """
 
 ip = "192.168.3.1"
+<<<<<<< HEAD
 ip = list(ip.split('.'))
 ip_template = '''
 IP address:
@@ -27,3 +28,5 @@ IP address:
 {0:08b}  {1:08b}  {2:08b}  {3:08b}
 '''
 print(ip_template.format(int(ip[0]),int(ip[1]),int(ip[2]),int(ip[3])))
+=======
+>>>>>>> template/master

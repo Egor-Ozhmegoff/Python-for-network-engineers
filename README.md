@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #  Изменение порядка разделов в книге 14.09.2020
 
 1. Раздел Базы данных (18_db) перенесен в конец книги. Теперь это раздел под номером 25. Перенос связан с тем, что тема может быть сильно сложной на этом этапе изучения, плюс задания в этом разделе сложнее. Перенос темы в конец оказался очень успешным на курсе, меньше слушателей забрасывали учебу в этом месте.
@@ -15,6 +16,8 @@
 
 Все новые правки будут идти только в обновленную версию, так что лучше, по возможности, переходить на новую.
 
+=======
+>>>>>>> template/master
 # Задания и примеры из книги "Python для сетевых инженеров"
 
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/) [![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/) [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)

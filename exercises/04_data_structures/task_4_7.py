@@ -10,5 +10,8 @@
 """
 
 mac = "AAAA:BBBB:CCCC"
+<<<<<<< HEAD
 mac2=bin(int(mac.replace(':',''),16))
 print(mac2)
+=======
+>>>>>>> template/master

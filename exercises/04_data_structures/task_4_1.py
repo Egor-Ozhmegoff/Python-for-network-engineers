@@ -10,5 +10,8 @@
 """
 
 nat = "ip nat inside source list ACL interface FastEthernet0/1 overload"
+<<<<<<< HEAD
 nat.replace('Fast','Gigabit')
 
+=======
+>>>>>>> template/master
