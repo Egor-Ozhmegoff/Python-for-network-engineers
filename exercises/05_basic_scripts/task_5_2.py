@@ -24,3 +24,21 @@ Out[1]: '11111111111111111111111111110000'
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+network =input('Введите ip адрес в формате 10.1.1.0/24 : ')
+ip=str(list(network.split('/'))[0]).split('.')
+mask=int(list(network.split('/'))[1])
+mask2=str("1"*mask+"0"*(32-mask))
+ip_template = '''
+Network:
+{0:<8} {1:<8} {2:<8} {3:<8}
+{0:08b} {1:08b} {2:08b} {3:08b}
+'''
+mask_template = f'''
+Mask:
+{mask}
+{int(mask2[0:8],2)} {int(mask2[8:16],2)} {int(mask2[16:24],2)} {int(mask2[24:32],2)}
+{mask2[0:8]} {mask2[8:16]} {mask2[16:24]} {mask2[24:32]}
+'''
+
+print(ip_template.format(int(ip[0]),int(ip[1]),int(ip[2]),int(ip[3])))
+print(mask_template)
