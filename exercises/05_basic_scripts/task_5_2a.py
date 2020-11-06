@@ -39,3 +39,23 @@ bin_ip = "00001010000000010000000111000011"
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+network =input('Введите ip адрес в формате 10.1.1.0/24 : ')
+ip, mask = network.split('/')
+ip1,ip2,ip3,ip4=bin(int(ip.split('.')[0])),bin(int(ip.split('.')[1])),bin(int(ip.split('.')[2])),bin(int(ip.split('.')[3]))
+subnet=(str(ip1)[2:].zfill(8)+str(ip2)[2:].zfill(8)+str(ip3)[2:].zfill(8)+str(ip4)[2:].zfill(8))[0:int(mask)]+"0"*(32-int(mask))
+oct1,oct2,oct3,oct4 = int(subnet[0:8],2),int(subnet[8:16],2),int(subnet[16:24],2),int(subnet[24:32],2)
+mask_bin="1"*int(mask)+"0"*(32-int(mask))
+m1,m2,m3,m4 = int(mask_bin[0:8],2),int(mask_bin[8:16],2),int(mask_bin[16:24],2),int(mask_bin[24:32],2)
+ip_template = '''
+Network:
+{0:<8} {1:<8} {2:<8} {3:<8}
+{0:08b} {1:08b} {2:08b} {3:08b}
+'''
+mask_template = '''
+Mask:
+/{0}
+{1:<8} {2:<8} {3:<8} {4:<8}
+{1:08b} {2:08b} {3:08b} {4:08b}
+'''
+print(ip_template.format(oct1,oct2,oct3,oct4))
+print(mask_template.format(mask,m1,m2,m3,m4))
