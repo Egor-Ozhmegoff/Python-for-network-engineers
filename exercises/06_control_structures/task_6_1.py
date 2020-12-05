@@ -12,3 +12,9 @@
 """
 
 mac = ["aabb:cc80:7000", "aabb:dd80:7340", "aabb:ee80:7000", "aabb:ff80:7000"]
+cisco_mac = []
+
+for symbol in mac:
+  cisco_mac.append(symbol.replace(':','.'))
+
+print(cisco_mac)
