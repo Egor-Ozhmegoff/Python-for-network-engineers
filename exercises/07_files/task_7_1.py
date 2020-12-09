@@ -16,8 +16,8 @@ Outbound Interface    FastEthernet0/0
 f = open("ospf.txt","r")
 
 for line in f:
-    ospf = " ".join(line.replace(",", " ").replace("[", "").replace("]", "").split())
-    ospf_l = list(ospf.split(" "))
+    ospf = line.replace(",", " ").replace("[", "").replace("]", "")
+    ospf_l = ospf.split()
     print(f'''
             Prefix                {ospf_l[1]}
             AD/Metric             {ospf_l[2]}
