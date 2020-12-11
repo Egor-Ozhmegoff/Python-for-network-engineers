@@ -17,3 +17,8 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+with open('CAM_table.txt','r') as f:
+    for line in f:
+        if '.' in line :
+            line = line.split()
+            print("{:<4}  {:<14}  {:<6}".format(line[0],line[1],line[3]))
