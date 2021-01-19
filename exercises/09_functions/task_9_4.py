@@ -35,3 +35,18 @@ def ignore_command(command, ignore):
     * False - если нет
     """
     return any(word in command for word in ignore)
+
+def convert_config_to_dict(config_filename):
+    with open(config_filename, 'r') as file:
+        Command_dict = {}
+        for command in file:
+            command = command.rstrip()
+            if ignore_command(command, ignore) is False:
+                if command.startswith('!'):
+                    pass
+                elif command.startswith(' ') is False:
+                    Command_key = command.strip('\n')
+                    Command_dict[Command_key] = []
+                else:
+                    Command_dict[Command_key].append(command.strip())
+    return Command_dict
