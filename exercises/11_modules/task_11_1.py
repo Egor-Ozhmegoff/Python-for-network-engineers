@@ -4,7 +4,8 @@
 
 Создать функцию parse_cdp_neighbors, которая обрабатывает вывод команды show cdp neighbors.
 
-У функции должен быть один параметр command_output, который ожидает как аргумент вывод команды одной строкой (не имя файла). Для этого надо считать все содержимое файла в строку,
+У функции должен быть один параметр command_output, который ожидает как аргумент вывод команды одной строкой (не имя файла).
+Для этого надо считать все содержимое файла в строку,
 а затем передать строку как аргумент функции (как передать вывод команды показано в коде ниже).
 
 Функция должна возвращать словарь, который описывает соединения между устройствами.
@@ -38,8 +39,18 @@ def parse_cdp_neighbors(command_output):
     работать и с файлами и с выводом с оборудования.
     Плюс учимся работать с таким выводом.
     """
+    result = {}
 
+    for line in command_output.split('\n'):
+        if '>' in line:
+            SrcDevice, *_ = line.split('>')
+        elif line[-1:].isdigit():
+           DstDevice, SrcIF, SrcNum, *_, DstIF, DstNum = line.split()
+           Src = (SrcDevice, SrcIF + SrcNum)
+           Dst = (DstDevice, DstIF + DstNum)
+           result[Src] = Dst
 
-if __name__ == "__main__":
-    with open("sh_cdp_n_sw1.txt") as f:
-        print(parse_cdp_neighbors(f.read()))
+    return result
+
+with open("sh_cdp_n_sw1.txt") as f:
+    print(parse_cdp_neighbors(f.read()))
