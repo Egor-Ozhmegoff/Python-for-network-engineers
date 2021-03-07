@@ -59,3 +59,28 @@ if __name__ == "__main__":
     topology = create_network_map(infiles)
     # рисуем топологию:
     # draw_topology(topology)
+
+from task_11_1 import parse_cdp_neighbors
+from draw_network_graph import *
+
+infiles = [
+    "sh_cdp_n_sw1.txt",
+    "sh_cdp_n_r1.txt",
+    "sh_cdp_n_r2.txt",
+    "sh_cdp_n_r3.txt",
+]
+
+def create_network_map(filenames):
+    result = {}
+    for file in filenames:
+        with open(file, 'r') as f:
+            dict = parse_cdp_neighbors(f.read())
+            for key, value in dict.items():
+                key, value = sorted([key, value])
+                result[key] = value
+
+    return result
+
+topology = create_network_map(infiles)
+
+draw_topology(topology)
