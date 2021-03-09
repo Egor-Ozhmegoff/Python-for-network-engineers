@@ -30,3 +30,18 @@
  '172.21.41.129', '172.21.41.130', '172.21.41.131', '172.21.41.132']
 
 """
+
+
+def convert_ranges_to_ip_list(ip_list):
+    new_ip_list = []
+    for ip in ip_list:
+        if '-' in ip:
+            start_ip = ip.split('-')[0].rsplit('.', 1)
+            end_ip = ip.split('-')[1].rsplit('.', 1)
+            for num in range(int(start_ip[-1]), int(end_ip[-1]) + 1):
+                new_ip_list.append(start_ip[0] + '.' + str(num))
+        else:
+            new_ip_list.append(ip)
+
+    return new_ip_list
+
