@@ -16,7 +16,6 @@
 """
 
 import subprocess
-from sys import argv
 
 
 def ping_ip_addresses(ip_list):
@@ -31,9 +30,3 @@ def ping_ip_addresses(ip_list):
 
     result = (reachable, unreachable)
     return result
-
-
-device = argv[1:]
-
-ip_status = ping_ip_addresses(device)
-print(ip_status)
