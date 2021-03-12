@@ -23,3 +23,20 @@ Reachable    Unreachable
 
 Для этого задания нет тестов
 """
+
+import task_12_1
+import task_12_2
+from sys import argv
+from tabulate import tabulate
+
+
+def print_ip_table(ip_list):
+    ip_dict = {}
+    Reachable, Unreachble = ip_list
+    ip_dict['Reachable'] = Reachable
+    ip_dict['Unreachable'] = Unreachble
+    print(tabulate(ip_dict, headers='keys'))
+
+
+convert_ip = task_12_2.convert_ranges_to_ip_list(argv[1:])
+sort_ip = task_12_1.ping_ip_addresses(convert_ip)
