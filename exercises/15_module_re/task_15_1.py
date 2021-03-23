@@ -22,3 +22,19 @@
 диапазоны адресов и так далее, так как обрабатывается вывод команды, а не ввод пользователя.
 
 """
+
+import re
+
+
+def get_ip_from_cfg(filename):
+    ip = []
+    regex = (r'address (\d+\.\d+\.\d+\.\d+)'
+             r'\s'
+             r'(\d+\.\d+\.\d+\.\d+)')
+    with open(filename) as f:
+        for line in f:
+            match = re.search(regex, line)
+            if match:
+                ip.append((match.group(1), match.group(2)))
+    return ip
+
