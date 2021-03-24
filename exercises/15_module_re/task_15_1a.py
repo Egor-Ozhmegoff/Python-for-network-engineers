@@ -39,7 +39,7 @@ def get_ip_from_cfg(filename):
             if match.lastgroup == 'interface':
                 interface = match.group(match.lastgroup)
             elif interface:
-                result[interface] = (match.group(2), match.group(3))
+                result[interface] = match.group(2, 3)
     print(result)
     return result
 

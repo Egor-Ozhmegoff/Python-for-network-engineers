@@ -25,3 +25,21 @@ Ethernet0/1 соответствует список из двух кортеже
 диапазоны адресов и так далее, так как обрабатывается вывод команды, а не ввод пользователя.
 
 """
+
+import re
+
+
+def get_ip_from_cfg(filename):
+    result = {}
+    regex = (r'interface (?P<interface>\S+)'
+             r'|ip address (?P<ip>\d+\.\d+\.\d+\.\d+)'
+             r'\s'
+             r'(?P<mask>\d+\.\d+\.\d+\.\d+)')
+    with open(filename) as f:
+        match_iter = re.finditer(regex, f.read())
+        for match in match_iter:
+            if match.lastgroup == 'interface':
+                interface = match.group(match.lastgroup)
+            elif interface:
+                result.setdefault(interface, []).append(match.group('ip', 'mask'))
+    return result
