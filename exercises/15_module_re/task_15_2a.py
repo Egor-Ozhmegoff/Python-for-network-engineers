@@ -33,3 +33,17 @@ data = [
     ("R2", "15.2(2)T1", "Cisco 2911"),
     ("SW1", "12.2(55)SE9", "Cisco WS-C2960-8TC-L"),
 ]
+
+
+def convert_to_dict(headers, data):
+    list_dict = []
+    for tuple_data in data:
+        data_list = list(tuple_data)
+        merge = zip(headers, data_list)
+        list_dict.append(dict(merge))
+    print(list_dict)
+    return list_dict
+
+
+convert_to_dict(headers, data)
+
