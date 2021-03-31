@@ -40,8 +40,32 @@
 """
 
 import glob
+import re
+import csv
 
 sh_version_files = glob.glob("sh_vers*")
 # print(sh_version_files)
 
 headers = ["hostname", "ios", "image", "uptime"]
+
+
+def parse_sh_version(command):
+    regex = (r'Cisco IOS Software, .*? Version (?P<Version>\S+),.*'
+             r'router uptime is (?P<Uptime>[\d+ \w+,]+).*'
+             r'"(?P<IOS>\S+)".*')
+    match = re.search(regex, command, re.DOTALL)
+    if match:
+        result = match.group('Version', 'IOS', 'Uptime')
+        return result
+
+
+def write_inventory_to_csv(data_filenames, csv_filename):
+    with open(csv_filename, 'w') as dst:
+        writer = csv.writer(dst)
+        writer.writerow(headers)
+        for file in data_filenames:
+            device = (re.search('sh_version_(\S+).txt', file)).group(1)
+            with open(file) as scr:
+                version, ios, uptime = parse_sh_version(scr.read())
+                dst_str = [device, version, ios, uptime]
+                writer.writerow(dst_str)
