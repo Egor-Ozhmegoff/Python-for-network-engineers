@@ -24,3 +24,21 @@ R6           Fa 0/2          143           R S I           2811       Fa 0/0
 
 Проверить работу функции на содержимом файла sh_cdp_n_sw1.txt
 """
+
+import re
+
+
+def parse_sh_cdp_neighbors(command):
+    regex = (r'(?P<Device>\S+)>'
+             r'|\n(?P<Neighbor>\w+\d+) +'
+             r'(?P<Local>\w+ \d+\/*\d*).*?'
+             r'(?P<Remote>\w+ \d+\/*\d*)')
+    result = {}
+    match_iter = re.finditer(regex, command, re.DOTALL)
+    for match in match_iter:
+        if match.lastgroup == 'Device':
+            device = match.group(match.lastgroup)
+            result[device] = {}
+        else:
+            result[device][match.group('Local')] = {match.group('Neighbor'): match.group('Remote')}
+    return result
