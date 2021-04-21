@@ -32,3 +32,29 @@
 Проверить работу параметра save_to_filename и записать итоговый словарь в файл topology.yaml.
 
 """
+
+import re
+import yaml
+
+
+def generate_topology_from_cdp(list_of_files, save_to_filename = None):
+    regex = (r'(?P<Device>\S+)>'
+             r'|\n(?P<Neighbor>\w+\d+) +'
+             r'(?P<Local>\w+ \d+\/*\d*).*?'
+             r'(?P<Remote>\w+ \d+\/*\d*)')
+    result = {}
+    for file in list_of_files:
+        with open(file, 'r') as src:
+            text = src.read()
+            match_iter = re.finditer(regex, text, re.DOTALL)
+            for match in match_iter:
+                if match.lastgroup == 'Device':
+                    device = match.group(match.lastgroup)
+                    result[device] = {}
+                else:
+                    result[device][match.group('Local')] = {match.group('Neighbor'): match.group('Remote')}
+    if save_to_filename:
+        with open(save_to_filename, 'w') as dst:
+            yaml.dump(result, dst, default_flow_style=False)
+    return result
+
