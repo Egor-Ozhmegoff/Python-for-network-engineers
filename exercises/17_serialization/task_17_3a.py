@@ -46,7 +46,7 @@ def generate_topology_from_cdp(list_of_files, save_to_filename = None):
     result = {}
     for file in list_of_files:
         with open(file, 'r') as src:
-            result.update(parse_sh_cdp_neighbors(f.read()))
+            result.update(parse_sh_cdp_neighbors(src.read()))
     if save_to_filename:
         with open(save_to_filename, 'w') as dst:
             yaml.dump(result, dst, default_flow_style=False)
