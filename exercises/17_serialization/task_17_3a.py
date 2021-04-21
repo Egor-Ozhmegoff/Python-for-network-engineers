@@ -35,6 +35,7 @@
 
 import re
 import yaml
+import task_17_3 import parse_sh_cdp_neighbors
 
 
 def generate_topology_from_cdp(list_of_files, save_to_filename = None):
@@ -45,14 +46,7 @@ def generate_topology_from_cdp(list_of_files, save_to_filename = None):
     result = {}
     for file in list_of_files:
         with open(file, 'r') as src:
-            text = src.read()
-            match_iter = re.finditer(regex, text, re.DOTALL)
-            for match in match_iter:
-                if match.lastgroup == 'Device':
-                    device = match.group(match.lastgroup)
-                    result[device] = {}
-                else:
-                    result[device][match.group('Local')] = {match.group('Neighbor'): match.group('Remote')}
+            result.update(parse_sh_cdp_neighbors(f.read()))
     if save_to_filename:
         with open(save_to_filename, 'w') as dst:
             yaml.dump(result, dst, default_flow_style=False)
