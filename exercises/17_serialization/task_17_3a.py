@@ -33,16 +33,12 @@
 
 """
 
-import re
 import yaml
-import task_17_3 import parse_sh_cdp_neighbors
+from sys import argv
+from task_17_3 import parse_sh_cdp_neighbors
 
 
-def generate_topology_from_cdp(list_of_files, save_to_filename = None):
-    regex = (r'(?P<Device>\S+)>'
-             r'|\n(?P<Neighbor>\w+\d+) +'
-             r'(?P<Local>\w+ \d+\/*\d*).*?'
-             r'(?P<Remote>\w+ \d+\/*\d*)')
+def generate_topology_from_cdp(list_of_files, save_to_filename=None):
     result = {}
     for file in list_of_files:
         with open(file, 'r') as src:
@@ -52,3 +48,8 @@ def generate_topology_from_cdp(list_of_files, save_to_filename = None):
             yaml.dump(result, dst, default_flow_style=False)
     return result
 
+
+if __name__ == "__main__":
+    files = list(argv[1].split(','))
+    filename = str(argv[2])
+    print(generate_topology_from_cdp(files, save_to_filename=filename))
