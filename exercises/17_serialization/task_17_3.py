@@ -42,3 +42,12 @@ def parse_sh_cdp_neighbors(command):
         else:
             result[device][match.group('Local')] = {match.group('Neighbor'): match.group('Remote')}
     return result
+
+
+if __name__ == "__main__":
+    cmd = ''''R4>show cdp neighbors
+
+Device ID    Local Intrfce   Holdtme     Capability       Platform    Port ID
+R5           Fa 0/1          122           R S I           2811       Fa 0/1
+R6           Fa 0/2          143           R S I           2811       Fa 0/0'''
+    print(parse_sh_cdp_neighbors(cmd))
