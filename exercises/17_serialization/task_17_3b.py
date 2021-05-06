@@ -32,3 +32,28 @@
 > pip install graphviz
 
 """
+
+
+import yaml
+import re
+from draw_network_graph import draw_topology
+
+
+def transform_topology(topology):
+    cdp_dict = {}
+    cdp_dict2 = {}
+    with open(topology, 'r') as f:
+        cdp = yaml.safe_load(f)
+        for key in cdp.keys():
+            for value in cdp[key].keys():
+                match = re.search(r"{'(\S+)': '(\w+ \S+)'}", str(cdp[key][value]))
+                cdp_dict[(key, value)] = (match.group(1), match.group(2))
+        for key2, value2 in cdp_dict.items():
+            key2, value2 = sorted([key2, value2])
+            cdp_dict2[key2] = value2
+    return cdp_dict2
+
+
+if __name__ == "__main__":
+    print(transform_topology('topology.yaml'))
+    draw_topology(transform_topology('topology.yaml'))
