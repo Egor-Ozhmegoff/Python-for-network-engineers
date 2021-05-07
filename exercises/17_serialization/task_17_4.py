@@ -54,3 +54,25 @@ def convert_datetime_to_str(datetime_obj):
     Конвертирует строку с датой в формате 11/10/2019 14:05 в объект datetime.
     """
     return datetime.datetime.strftime(datetime_obj, "%d/%m/%Y %H:%M")
+
+
+import csv
+
+
+def write_last_log_to_csv(source_log, output):
+    result = {}
+    with open(source_log) as f:
+        mail = list(csv.reader(f))
+        headers = mail[0]
+        sorted_by_date = sorted(mail[1:], key=lambda x: convert_str_to_datetime(x[2]))
+        for name, mail, date in sorted_by_date:
+            result[mail] = name, mail, date
+        with open(output, 'w') as out:
+            writer = csv.writer(out)
+            writer.writerow(headers)
+            for row in result.values():
+                writer.writerow(row)
+
+
+if __name__ == "__main__":
+    print(write_last_log_to_csv('mail_log.csv'))
