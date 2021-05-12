@@ -61,4 +61,4 @@ if __name__ == "__main__":
         devices = yaml.safe_load(f)
 
     for dev in devices:
-        print(send_config_commands(dev, test_commands))
+        print(send_config_commands(dev, commands))
