@@ -16,8 +16,16 @@
 
 """
 import yaml
+from netmiko import (ConnectHandler, NetmikoTimeoutException, NetmikoAuthenticationException)
 
 
+def send_show_command(device,command):
+    try:
+        with ConnectHandler(**device) as ssh:
+            output = ssh.send_command(command)
+    except (NetmikoTimeoutException, NetmikoAuthenticationException) as error:
+        print(error)
+    return output
 
 if __name__ == "__main__":
     command = "sh ip int br"
