@@ -1,21 +1,21 @@
 - device_type: cisco_ios
   host: 10.255.0.94
-  username: eozhmegov
-  password: Hr33disH00d
+  username: cisco
+  password: cisco
   secret: cisco
   timeout: 5
   fast_cli: true
 - device_type: cisco_ios
   host: 10.255.0.95
-  username: eozhmegov
-  password: Hr33disH00d
+  username: cisco
+  password: cisco
   secret: cisco
   timeout: 5
   fast_cli: true
 - device_type: cisco_ios
   host: 10.255.0.96
-  username: Hr33disH00d
-  password: 132
+  username: cisco
+  password: cisco
   secret: cisco
   timeout: 5
   fast_cli: true
