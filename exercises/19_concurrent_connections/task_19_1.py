@@ -23,3 +23,31 @@
 а затем запустить эту функцию в разных потоках для разных
 IP-адресов с помощью concurrent.futures (это надо сделать в функции ping_ip_addresses).
 """
+
+
+from concurrent.futures import ThreadPoolExecutor
+import os
+
+def ping(host):
+    result = os.system('ping -c 3 ' + host)
+    return result
+
+def ping_ip_addresses(ip_list, limit=3):
+    reachable = []
+    unreachable = []
+    with ThreadPoolExecutor(max_workers=limit) as executor:
+        result = executor.map(ping,ip_list)
+        for device, output in zip(ip_list, result):
+            if output:
+                unreachable.append(device)
+            else:
+                reachable.append(device)
+        final_result = (reachable, unreachable)
+    return final_result
+
+if __name__ == "__main__":
+    list_of_ips = ["1.1.1", "8.8.8.8", "8.8.4.4", "8.8.7.1"]
+    print(ping_ip_addresses(list_of_ips))
+
+
+
