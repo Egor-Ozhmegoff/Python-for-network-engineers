@@ -86,3 +86,38 @@ R3#
 
 Для выполнения задания можно создавать любые дополнительные функции.
 """
+
+import yaml
+from concurrent.futures import ThreadPoolExecutor
+from netmiko import ConnectHandler
+from itertools import repeat
+
+
+def send_show_command(device, command):
+    with ConnectHandler(**device) as ssh:
+        ssh.enable()
+        result = ssh.find_prompt() + ssh.send_command(command, strip_command=False) + '\n'
+    return result
+
+
+def send_config_command(device, command):
+    with ConnectHandler(**device) as ssh:
+        ssh.enable()
+        result = ssh.find_prompt() + ssh.send_config_set(command, strip_command=False) + '\n'
+    return result
+
+
+def send_commands_to_devices(devices, show=None, config=None, filename='result.txt', limit=3):
+    command = show if show else config
+    function = send_show_command if show else send_config_command
+    with ThreadPoolExecutor(max_workers=limit) as executor:
+            result = executor.map(function, devices, repeat(command))
+    with open(filename, 'w') as dst:
+        for res in result:
+            dst.write(res)
+
+
+if __name__ == "__main__":
+    with open('devices.yaml') as src:
+        devices = yaml.safe_load(src)
+    send_commands_to_devices(devices, show='sh ip int brief', filename='result.txt')
