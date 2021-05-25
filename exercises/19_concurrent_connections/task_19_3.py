@@ -42,6 +42,34 @@ router ospf 1
 # тест берет адреса из файла devices.yaml
 commands = {
     "192.168.100.3": "sh run | s ^router ospf",
-    "192.168.100.1": "sh ip int br",
-    "192.168.100.2": "sh int desc",
+    "192.168.100.2": "sh ip int br",
+    "192.168.100.1": "sh int desc",
 }
+
+import yaml
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from netmiko import ConnectHandler
+
+
+def show(device,command):
+    with ConnectHandler(**device) as ssh:
+        ssh.enable()
+        result = ssh.find_prompt() + ssh.send_command(command,strip_command=False) +'\n'
+    return result
+
+def send_command_to_devices(devices, commands_dict, filename, limit=3):
+    with ThreadPoolExecutor(max_workers=limit) as executor:
+        future_list = []
+        for device in devices:
+            command = commands_dict[device['host']]
+            future = executor.submit(show, device, command)
+            future_list.append(future)
+    with open(filename,'w') as dst:
+        for res in as_completed(future_list):
+            dst.write(res.result())
+
+
+if __name__ == "__main__":
+    with open('devices.yaml') as src:
+        devices = yaml.safe_load(src)
+    send_command_to_devices(devices, commands, 'result.txt')
