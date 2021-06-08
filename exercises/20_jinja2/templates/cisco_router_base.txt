@@ -1,0 +1,9 @@
+{% include "cisco_base.txt" %}
+{% block base %}
+{% endblock %}
+{% include "alias.txt" %}
+{% block alias %}
+{% endblock %}
+{% include "eem_int_desc.txt" %}
+{% block event %}
+{% endblock %}

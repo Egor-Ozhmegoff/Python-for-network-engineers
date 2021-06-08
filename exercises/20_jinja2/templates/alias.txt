@@ -1,3 +1,4 @@
+{% block alias %}
 alias exec c conf t
 alias configure sh do sh
 alias exec top sh proc cpu sorted | excl 0.00%__0.00%__0.00%
@@ -6,3 +7,4 @@ alias exec bri show ip int bri | exc unass
 alias exec id show int desc
 alias exec desc sh int desc | ex down
 alias exec ospf sh run | s ^router ospf
+{% endblock %}
