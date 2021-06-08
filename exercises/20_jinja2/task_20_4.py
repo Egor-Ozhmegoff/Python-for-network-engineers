@@ -29,3 +29,14 @@ interface Gi0/10
 Не копируйте код функции generate_config.
 
 """
+
+
+from task_20_1 import generate_config
+import yaml
+
+if __name__ == "__main__":
+    data_file = "data_files/add_vlan_to_switch.yaml"
+    template_file = "templates/add_vlan_to_switch.txt"
+    with open(data_file) as f:
+        data = yaml.safe_load(f)
+    print(generate_config(template_file, data))
