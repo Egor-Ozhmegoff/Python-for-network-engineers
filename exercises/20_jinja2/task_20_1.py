@@ -19,7 +19,7 @@ import os
 
 def generate_config(template, data_dict):
     template_dir, template_parth = os.path.split(template)
-    env = Environment(loader = FileSystemLoader(template_dir))
+    env = Environment(loader = FileSystemLoader(template_dir), trim_blocks=True, lstrip_blocks=True)
     template = env.get_template(template_parth)
     result = template.render(data_dict)
     return result
