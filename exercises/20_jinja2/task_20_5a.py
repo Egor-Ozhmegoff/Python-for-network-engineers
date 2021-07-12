@@ -27,6 +27,13 @@
 Для этого задания нет теста!
 """
 
+
+import os
+from task_20_5 import create_vpn_config
+from netmiko import (ConnectHandler, NetmikoTimeoutException, NetmikoAuthenticationException)
+from jinja2 import Environment, FileSystemLoader
+
+
 data = {
     "tun_num": None,
     "wan_ip_1": "192.168.100.1",
@@ -34,3 +41,28 @@ data = {
     "tun_ip_1": "10.0.1.1 255.255.255.252",
     "tun_ip_2": "10.0.1.2 255.255.255.252",
 }
+
+def configure_vpn(src_device_params, dst_device_params, src_template, dst_template, vpn_data_dict):
+    try:
+        src_int = []
+        dst_int = []
+        with ConnectHandler(**src_device_params) as ssh_src, ConnectHandler(**dst_device_params) as ssh_dst:
+            src_tun_info = ssh_src.send_command('sh ip int brief')
+            dst_tun_info = ssh_dst.send_command('sh ip int brief')
+            for line in src_tun_info:
+                if 'Tunnel' in line:
+                    src_int.append(line.split(' ')[0])
+            for line in dst_tun_info:
+                if 'Tunnel' in line:
+                    dst_int.append(line.split(' ')[0])
+            int_info = list(set(zip(src_int, dst_int)))
+            for num in range(100):
+                if f'Tunnel{num}' not in int_info:
+                    vpn_data_dict["tun_num"] = f'Tunnel{num}'
+                    break
+            template = create_vpn_config(src_template, dst_template, vpn_data_dict)
+            result_src = ssh_src.send_config_set(template[0])
+            result_dst = ssh_dst.send_config_set(template[1])
+        return result_src, result_dst
+    except (NetmikoTimeoutException, NetmikoAuthenticationException) as error:
+        print(error)
