@@ -14,13 +14,21 @@
 
 """
 from netmiko import ConnectHandler
+from textfsm import TextFSM
+
+
+def parse_command_output(template, command_output):
+    with open(template) as f:
+        table = TextFSM(f)
+        data = [table.header] + table.ParseText(command_output)
+    return data
 
 
 # вызов функции должен выглядеть так
 if __name__ == "__main__":
     r1_params = {
         "device_type": "cisco_ios",
-        "host": "192.168.100.1",
+        "host": "192.168.0.100",
         "username": "cisco",
         "password": "cisco",
         "secret": "cisco",
