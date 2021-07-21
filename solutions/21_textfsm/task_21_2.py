@@ -14,7 +14,7 @@
 
 Проверить работу шаблона с помощью функции parse_command_output из задания 21.1.
 """
-from task_22_1 import parse_command_output
+from task_21_1 import parse_command_output
 
 
 if __name__ == "__main__":
